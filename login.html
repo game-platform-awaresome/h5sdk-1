@@ -23,8 +23,8 @@
         <div class="line"></div>
         <button class="btn-login" onclick="toLogin()"> 登录</button>
         <br/>
-        <span class="text-r">注册</span>
-        <span class="text-f">忘记密码</span>
+        <button class="text-regist" onclick="toRegist()">注册</span>
+        <button class="text-forget" onclick="toForget()"">忘记密码</span>
     </div>
 </div>
 </body>
@@ -51,6 +51,14 @@
                     break;
             }
         })
+    }
+
+    function toRegist(){
+        window.location.href = './regist.html'
+    }
+
+    function toForget(){
+        window.location.href = './regist.html'
     }
 
     window.onload = function () {

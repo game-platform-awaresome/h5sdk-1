@@ -2,7 +2,7 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>注册</title>
+    <title>忘记密码</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/Api.js"></script>
     <script type="text/javascript" src="./js/User.js"></script>
@@ -11,45 +11,39 @@
 <div id="login" class="content">
      <div class="title">
         <img onclick="history.go(-1)" id="back" src="./img/顶部返回ICON@3x.png">
-        <div class="title-text">注册</div>
+        <div class="title-text">忘记密码</div>
     </div>
     <div class="regist-from">
         <img class="icon" src="./img/用户icon@3x.png">
         <input id="phone" class="input" placeholder="请输入手机号">
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
-        <input id="validCode" class="input1"  placeholder="请输入验证码" >
-        <button class="validCodeSpan" onclick="">获得验证码</button>
+        <input id="validCode" class="input"  placeholder="请输入验证码">
         <div class="line"></div>
-        <img class="icon" src="./img/密码ICON@3x.png">
-        <input id="password" class="input" type="password" placeholder="请输入密码">
-        <div class="line"></div>
-        <button class="btn-login" onclick="toRegist()"> 注册</button>
+        <button class="btn-login" onclick="toForget()">下一步</button>
         <br/>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-    function toRegist() {
+    function toForget() {
         var body = {};
         var phone = document.getElementById("phone");
         var validCode = document.getElementById("validCode");
-        var password = document.getElementById("password");
         if (phone === "") {
         }
         body.mobile = phone.value;
         body.validCode = validCode.value;
-        body.password = password.value;
-        body.type = "3";
         regist(body, function (response) {
             switch (response.status) {
                 case "0200":
                     // response.mobile = body.mobile;
                     // saveUser(response);
-                    history.go(-1);
+                    // history.go(-1);
+                    window.location.href = './modify.html'
                     break;
                 default:
-                    alert("注册失败");
+                    alert("验证码不正确");
                     break;
             }
         })

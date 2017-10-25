@@ -35,6 +35,10 @@ function login(body, response) {
     loadXMLDoc("POST", baseUrl + "user/login", body, response)
 }
 
+function regist(body, response) {
+    loadXMLDoc("POST", baseUrl + "user/register", body, response)
+}
+
 function createOrder(body, response) {
     loadXMLDoc("POST", baseUrl + "order/create", body, response)
 }

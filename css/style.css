@@ -67,6 +67,30 @@ html {
     vertical-align: middle;
 }
 
+.input1 {
+    width: 40%;
+    background: none;
+    border: none;
+    outline: none;
+    height: 53px;
+    font-size: 38px;
+    margin-left: 10px;
+    padding: 0;
+    top: -10px;
+    vertical-align: middle;
+
+}
+
+.validCodeSpan {
+    width: 40%;
+    font-size: 28px;
+    display: inline-block;
+    background-color: white;
+    border-color: #4461D9;
+    border-bottom-color: #4461D9;
+
+}
+
 .icon {
     margin: 0 auto;
     height: 35px;
@@ -96,19 +120,32 @@ html {
     -moz-background-size: 100% 100%;
 }
 
-.text-f {
+.text-forget {
     display: inline-block;
     width: 40%;
     font-size: 28px;
-
     text-align: end;
+    border: none;
+    background-color: white;
 }
 
-.text-r {
+.text-regist {
     display: inline-block;
     width: 40%;
     font-size: 28px;
     text-align: start;
+    border: none;
+    background-color: white;
+}
+.regist-from {
+
+    width: 100%;
+    margin-top: 8%;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    text-align: center;
 }
 
 .title {
