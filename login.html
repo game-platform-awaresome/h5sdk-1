@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="./js/Api.js"></script>
+    <script type="text/javascript" src="./js/User.js"></script>
+
+</head>
+<body>
+<div id="login" class="content">
+    <img src="img/gy_big_bg.png" width="100%">
+    <div class="logo">
+        <img class="logo-img" src="img/LOGO@3x.png" width="80%">
+    </div>
+    <div class="from">
+        <img class="icon" src="./img/用户icon@3x.png">
+        <input id="phone" class="input" placeholder="请输入手机号">
+        <div class="line"></div>
+        <img class="icon" src="./img/密码ICON@3x.png">
+        <input id="password" class="input" type="password" placeholder="请输入密码">
+        <div class="line"></div>
+        <button class="btn-login" onclick="toLogin()"> 登录</button>
+        <br/>
+        <span class="text-r">注册</span>
+        <span class="text-f">忘记密码</span>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function toLogin() {
+        var body = {};
+        var phone = document.getElementById("phone");
+        var password = document.getElementById("password");
+        if (phone === "") {
+        }
+        body.mobile = phone.value;
+        body.password = password.value;
+        body.type = "3";
+        body.games = [{"gamepackage": "com.youda.games"}];
+        login(body, function (response) {
+            switch (response.status) {
+                case "0200":
+                    response.mobile = body.mobile;
+                    saveUser(response);
+                    history.go(-1);
+                    break;
+                default:
+                    alert("登录失败");
+                    break;
+            }
+        })
+    }
+
+    window.onload = function () {
+        logout();
+    };
+</script>
+
+</html>

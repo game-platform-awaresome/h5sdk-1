@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <TITLE> H5 SDK Demo </TITLE>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="./js/User.js"></script>
+    <style>
+        h1 {
+            line-height: 50px;
+            margin: 0;
+        }
+
+        a {
+            font-size: 38px;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>H5 SDK Demo</h1><br>
+    <span id="id"></span>
+    <span id="phone"></span>
+    <a id="login" href="login.html">登录</a><br>
+    <a href="pay.html"> 支付</a>
+    <br/>
+
+</div>
+</body>
+<script>
+    window.onload= function () {
+        if (isLogin()) {
+            var user =loadUser();
+            document.getElementById("login").innerHTML = "注销登录";
+            document.getElementById("id").innerHTML = "用户ID"+user.userid+"<br/>";
+            document.getElementById("phone").innerHTML = "用户手机号" +user.mobile+"<br/>";
+        } else {
+            document.getElementById("login").innerHTML = "登录";
+            document.getElementById("id").innerHTML = "";
+            document.getElementById("phone").innerHTML ="";
+        }
+    }
+</script>
+</html>

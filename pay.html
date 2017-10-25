@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <title>支付页面</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="./js/User.js"></script>
+    <script type="text/javascript" src="./js/Api.js"></script>
+
+</head>
+<body>
+<div id="pay-content" class="content pay-content">
+    <div class="title">
+        <img onclick="history.go(-1)" id="back" src="./img/顶部返回ICON@3x.png">
+        <div class="title-text">收银台</div>
+    </div>
+    <div class="pay-menu">
+        <span class="pay-text-l">订单金额</span>
+        <span id="price" class="pay-text-f"></span>
+    </div>
+    <div class="pay-menu">
+        <span class="pay-text-l">订单编号</span>
+        <span id="number" class="pay-text-f"></span>
+    </div>
+    <div class="pay-menu">
+        <span class="pay-text-l">支付方式</span>
+        <span class="pay-type">  支付宝 </span>
+    </div>
+    <div class="pay-menu ali-pay">
+        <img class="pay-img" src="img/支付宝@3x.png">
+        <span class="pay-text"> 支付宝</span>
+        <div class='pay-check'>
+            <input type='checkbox' id='check-ali' name='checkboox[]'>
+            <label for='check-ali'></label>
+        </div>
+    </div>
+    <div class="pay-menu wechat-pay">
+        <img class="pay-img" src="img/微信@3x.png">
+        <span class="pay-text"> 微信</span>
+        <div class='pay-check'>
+            <input type='checkbox' id='check-wechat' name='checkboox[]'>
+            <label for='check-wechat'></label>
+        </div>
+    </div>
+    <div class="pay-bottom">
+        <span class="pay-text-button">总计</span>
+        <span id="allPrice" class="pay-text-button pay-text-price"></span>
+        <div onclick="alipay()" class="pay">
+            <span class="pay-span"> 支付</span>
+            <img class="time" src="img/倒计时@3x.png" height="25">
+            <span class="pay-span"></span>
+        </div>
+    </div>
+</div>
+<script language="javascript">
+    var order = null;
+
+    function load() {
+        if (!isLogin()) {
+            window.location.href = './login.html'
+        } else {
+            create();
+        }
+    }
+
+    function create() {
+        var user = loadUser();
+        var body = {};
+        body.payment = "0.01";
+        body.paytype = "";
+        body.paystatus = "";
+        body.user = {"userid": user.userid + ""};
+        body.games = {"gameid": user.gameid + ""};
+        body.ordergoods = [{"title": "测试商品", "price": "0.01", "number": "", "orderid": ""}];
+        createOrder(body, function (response) {
+            console.log(response);
+
+            switch (response.status) {
+                case "0200":
+                    order = response;
+                    document.getElementById("price").innerHTML = "¥" + body.payment;
+                    document.getElementById("number").innerHTML = response.serialnumber;
+                    document.getElementById("allPrice").innerHTML = "¥" + body.payment;
+                    break;
+                default:
+                    alert("创建订单失败");
+                    break;
+            }
+        })
+    }
+
+    function alipay() {
+        console.log(order + "---------");
+        var body = {"orderid": order.orderid + ""};
+        alipayOrder(body, function (response) {
+            console.log(response);
+            document.getElementById("pay-content").innerHTML = response;
+            document.forms[0].submit();
+        })
+    }
+
+    // Your logic here
+    load();
+
+</script>
+
+</body>
+</html>
