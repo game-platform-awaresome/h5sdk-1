@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>忘记密码</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/Api.js"></script>
     <script type="text/javascript" src="./js/User.js"></script>
 </head>
 <body>
 <div id="login" class="content">
-     <div class="title">
+    <div class="title">
         <img onclick="history.go(-1)" id="back" src="./img/顶部返回ICON@3x.png">
         <div class="title-text">忘记密码</div>
     </div>
@@ -18,10 +20,13 @@
         <input id="phone" class="input" placeholder="请输入手机号">
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
-        <input id="validCode" class="input1"  placeholder="请输入验证码">
+        <input id="validCode" class="input1" placeholder="请输入验证码">
         <button class="btn-validCode" onclick="">获得验证码</button>
         <div class="line"></div>
-        <button class="btn-login" onclick="toForget()">下一步</button>
+        <button class="btn-all"  onclick="toForget()">
+            <img class="btn-img" src="img/登录按钮@3x.png">
+           <span class="btn-text">下一步</span>
+        </button>
         <br/>
     </div>
 </div>
@@ -49,6 +54,7 @@
             }
         })
     }
+
     window.onload = function () {
         // logout();
     };

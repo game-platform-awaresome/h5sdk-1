@@ -36,31 +36,35 @@ html {
 }
 
 .logo {
-    width: 366px;
-    height: 369px;
+    width: 100px;
+    height: 100px;
     position: relative;
     margin: auto;
-    margin-top: -200px;
+    margin-top: -80px;
     background: url("../img/LOGO框‘@3x.png") no-repeat;
     background-size: 100% 100%;
     -moz-background-size: 100% 100%;
 }
 
 .logo-img {
-    margin: 10%;
+    width: 80px;
+    padding: 10px;
 }
 
 .from {
     width: 100%;
 }
-
+.bg-img{
+    max-width: 800px;
+    width: 100%;
+}
 .input {
     width: 80%;
     background: none;
     border: none;
     outline: none;
     height: 53px;
-    font-size: 38px;
+    font-size: 18px;
     margin-left: 10px;
     padding: 0;
     top: -10px;
@@ -68,12 +72,12 @@ html {
 }
 
 .input1 {
-    width: 40%;
+    width: 80%;
     background: none;
     border: none;
     outline: none;
     height: 53px;
-    font-size: 38px;
+    font-size: 18px;
     margin-left: 10px;
     padding: 0;
     top: -10px;
@@ -81,34 +85,23 @@ html {
 
 }
 
-.btn-validCode{
-    width: 200px;
-    height: 50px;
+.btn-validCode {
+    width: 150px;
+    height: 30px;
     font-size: 18px;
-    display: inline-block;
+    position: absolute;
+    z-index: 1;
+    margin-left: -150px;
+    outline: none;
+    margin-top: 10px;
     background-color: white;
     border-color: #4461D9;
-    border-bottom-color: #4461D9;
-
-
-    position: relative;
-/*    margin: 10px;
-*/    margin-right: 150px;
-    padding: 0 20px;
     text-align: center;
     text-decoration: none;
-    /*font: bold 12px/25px Arial, sans-serif;*/
-
-    text-shadow: 1px 1px 1px rgba(255,255,255, .22);
-
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, .22);
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
-/*
-    -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-    -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-    box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-*/
     -webkit-transition: all 0.15s ease;
     -moz-transition: all 0.15s ease;
     -o-transition: all 0.15s ease;
@@ -119,7 +112,7 @@ html {
 
 .icon {
     margin: 0 auto;
-    height: 35px;
+    height: 22px;
     vertical-align: middle;
 }
 
@@ -127,44 +120,38 @@ html {
     width: 90%;
     height: 1px;
     background: #e5e5e5;
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 0px;
     overflow: hidden;
 }
 
-.btn-login {
-    margin-top: 20px;
-    width: 900px;
-    height: 185px;
+.btn-all {
+    margin-top: 50px;
+    background: none;
     border: none;
-    color: white;
-    padding-bottom: 30px;
     outline: none;
-    font-size: 38px;
-    background: url("../img/登录按钮@3x.png");
-    background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
 }
 
-.btn-regist
-{
-    margin-top: 20px;
-    width: 800px;
-    height: 185px;
-    border: none;
+.btn-img {
+    width: auto;
+    height: 50px;
+}
+.btn-text{
+    position: relative;
+    z-index: 999;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: -45px;
+    top: 0;
     color: white;
-    padding-bottom: 30px;
-    outline: none;
-    font-size: 38px;
-    background: url("../img/登录按钮@3x.png");
-    background-size: 100% 100%;
-    -moz-background-size: 100% 100%;
+    font-size: 18px;
 }
 
 .text-forget {
     display: inline-block;
     width: 40%;
-    font-size: 28px;
+    font-size: 16px;
     text-align: end;
     border: none;
     background-color: white;
@@ -173,11 +160,12 @@ html {
 .text-regist {
     display: inline-block;
     width: 40%;
-    font-size: 28px;
+    font-size: 16px;
     text-align: start;
     border: none;
     background-color: white;
 }
+
 .regist-from {
 
     width: 100%;
@@ -325,6 +313,7 @@ html {
     color: #ff2742;
 
 }
+
 .pay-text-button {
     line-height: 45px;
     margin-left: 10px;
@@ -339,19 +328,23 @@ html {
     margin-right: 10px;
     border-radius: 5px;
 }
-.time{
+
+.time {
     margin-right: 15px;
     margin-left: 15px;
     display: inline-block;
     vertical-align: middle;
 }
-.pay-span{
+
+.pay-span {
     line-height: 25px;
 }
-form{
+
+form {
     width: 100%;
     height: 100%;
 }
-input{
+
+input {
     display: inline-block;
 }
