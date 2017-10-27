@@ -43,15 +43,16 @@
         if (phone === "") {
         }
         body.mobile = phone.value;
-        body.validCode = validCode.value;
+        body.valicode = validCode.value;
         body.password = password.value;
         body.type = "3";
         regist(body, function (response) {
             switch (response.status) {
                 case "0200":
-                    // response.mobile = body.mobile;
-                    // saveUser(response);
                     history.go(-1);
+                    break;
+                case "0202":
+                    alert("该用户已经注册了，请重新填写！");
                     break;
                 default:
                     alert("注册失败");
