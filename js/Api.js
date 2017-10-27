@@ -39,6 +39,10 @@ function regist(body, response) {
     loadXMLDoc("POST", baseUrl + "user/register", body, response)
 }
 
+function validCode(body, phone, response) {
+    loadXMLDoc("GET", baseUrl + "send?phone=" + phone, body, response)
+}
+
 function createOrder(body, response) {
     loadXMLDoc("POST", baseUrl + "order/create", body, response)
 }

@@ -19,7 +19,7 @@
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
         <input id="validCode" class="input1"  placeholder="请输入验证码">
-        <button class="btn-validCode" onclick="">获得验证码</button>
+        <button class="btn-validCode" onclick="toValidCode()">获得验证码</button>
         <div class="line"></div>
         <button class="btn-login" onclick="toForget()">下一步</button>
         <br/>
@@ -49,6 +49,26 @@
             }
         })
     }
+
+    function toValidCode(){
+        var body = {};
+        var phone = document.getElementById("phone");
+        if (phone === "") {
+        }
+        validCode(body, phone.value, function (response) {
+            switch (response.status) {
+                case "0200":
+                    // response.mobile = body.mobile;
+                    // saveUser(response);
+                    break;
+                default:
+                    alert("发送验证码失败");
+                    break;
+            }
+        })
+
+    }
+
     window.onload = function () {
         // logout();
     };
