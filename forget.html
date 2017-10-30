@@ -14,19 +14,29 @@
         <img onclick="history.go(-1)" id="back" src="./img/顶部返回ICON@3x.png">
         <div class="title-text">忘记密码</div>
     </div>
-    <div class="regist-from">
+    <div id="first" class="regist-from">
         <img class="icon" src="./img/用户icon@3x.png">
         <input id="phone" class="input" placeholder="请输入手机号">
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
 
         <input id="validCode" class="input1"  placeholder="请输入验证码">
-        <button class="btn-validCode" onclick="toValidCode()">获得验证码</button>
+        <input id="sendCode" type="button" class="btn-validCode" onclick="toValidCode()" value="获得验证码">
         <div class="line"></div>
         <button class="btn-all"  onclick="toForget()">
             <img class="btn-img" src="img/登录按钮@3x.png">
            <span class="btn-text">下一步</span>
         </button>
+        <br/>
+    </div>
+    <div id="next" class="regist-from" style="display: none">
+        <img class="icon" src="./img/密码ICON@3x.png">
+        <input id="password" class="input" type="password" placeholder="请输入新密码">
+        <div class="line"></div>
+        <img class="icon" src="./img/密码ICON@3x.png">
+        <input id="passwordSec" class="input" type="password" placeholder="请再次输入新密码">
+        <div class="line"></div>
+        <button class="btn-login" onclick="toModify()">确定</button>
         <br/>
     </div>
 </div>
@@ -39,14 +49,17 @@
         if (phone === "") {
         }
         body.mobile = phone.value;
-        body.validCode = validCode.value;
-        regist(body, function (response) {
+        body.valicode = validCode.value;
+        forgetFirst(body, function (response) {
             switch (response.status) {
                 case "0200":
                     // response.mobile = body.mobile;
                     // saveUser(response);
                     // history.go(-1);
-                    window.location.href = './modify.html'
+//                    window.location.href = './modify.html';
+                    document.getElementById("first").style.display="none";
+                    document.getElementById("next").style.display="visible";
+
                     break;
                 default:
                     alert("验证码不正确");
@@ -63,8 +76,7 @@
         validCode(body, phone.value, function (response) {
             switch (response.status) {
                 case "0200":
-                    // response.mobile = body.mobile;
-                    // saveUser(response);
+                    time(document.getElementById("sendCode"));
                     break;
                 default:
                     alert("发送验证码失败");

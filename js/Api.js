@@ -52,6 +52,29 @@ function createOrder(body, response) {
 function alipayOrder(body, response) {
     loadAlipay("POST", baseUrl + "alipay/phonepay", body, response)
 }
+function forgetFirst(body,response) {
+    loadXMLDoc("PUT", baseUrl + "user/forgetpassone", body, response)
+}
+function forgetNext(body,response) {
+    loadXMLDoc("PUT", baseUrl + "user/forgetpasstwo", body, response)
+}
+var wait=60;
+function time(o) {
+    if (wait === 0) {
+        o.removeAttribute("disabled");
+        o.value="获取验证码";
+        wait = 60;
+    } else {
+
+        o.setAttribute("disabled", true);
+        o.value="重新发送(" + wait + ")";
+        wait--;
+        setTimeout(function() {
+                time(o)
+            },
+            1000)
+    }
+}
 
 function loadAlipay(method, url, body, response) {
 

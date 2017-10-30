@@ -16,7 +16,7 @@
     </div>
     <div class="regist-from">
         <img class="icon" src="./img/用户icon@3x.png">
-        <input id="phone" class="input" placeholder="请输入手机号">
+        <input id="username" class="input" placeholder="请输入手机号">
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
         <input id="validCode" class="input1"  placeholder="请输入验证码" >
@@ -36,15 +36,18 @@
 <script type="text/javascript">
     function toRegist() {
         var body = {};
-        var phone = document.getElementById("phone");
+        var phone = document.getElementById("username");
         var validCode = document.getElementById("validCode");
         var password = document.getElementById("password");
-        if (phone === "") {
+
+        body.mobile = phone.value+"";
+        body.valicode = validCode.value+"";
+        body.password = password.value+"";
+        body.type = "1";
+        if (body.mobile===""||body.valicode===""||body.password===""){
+            alert("请填写完整");
+            return;
         }
-        body.mobile = phone.value;
-        body.valicode = validCode.value;
-        body.password = password.value;
-        body.type = "3";
         regist(body, function (response) {
             switch (response.status) {
                 case "0200":
@@ -62,9 +65,7 @@
 
     function toValidCode(){
         var body = {};
-        var phone = document.getElementById("phone");
-        if (phone === "") {
-        }
+        var phone = document.getElementById("username");
         validCode(body, phone.value, function (response) {
             switch (response.status) {
                 case "0200":
@@ -76,23 +77,7 @@
             }
         })
     }
-    var wait=60;
-    function time(o) {
-        if (wait === 0) {
-            o.removeAttribute("disabled");
-            o.value="获取验证码";
-            wait = 60;
-        } else {
 
-            o.setAttribute("disabled", true);
-            o.value="重新发送(" + wait + ")";
-            wait--;
-            setTimeout(function() {
-                    time(o)
-                },
-                1000)
-        }
-    }
     window.onload = function () {
         // logout();
     };
