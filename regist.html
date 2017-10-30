@@ -40,11 +40,11 @@
         var validCode = document.getElementById("validCode");
         var password = document.getElementById("password");
 
-        body.mobile = phone.value+"";
+        body.username = phone.value+"";
         body.valicode = validCode.value+"";
         body.password = password.value+"";
         body.type = "1";
-        if (body.mobile===""||body.valicode===""||body.password===""){
+        if (body.username===""||body.valicode===""||body.password===""){
             alert("请填写完整");
             return;
         }
