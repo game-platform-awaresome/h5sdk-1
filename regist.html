@@ -7,7 +7,6 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <script type="text/javascript" src="./js/Api.js"></script>
-    <script type="text/javascript" src="./js/User.js"></script>
 </head>
 <body>
 <div id="login" class="content">
@@ -21,7 +20,7 @@
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
         <input id="validCode" class="input1"  placeholder="请输入验证码" >
-        <button class="btn-validCode" onclick="toValidCode()">获得验证码</button>
+        <input id="sendCode" type="button" class="btn-validCode" onclick="toValidCode()" value="获得验证码">
         <div class="line"></div>
         <img class="icon" src="./img/密码ICON@3x.png">
         <input id="password" class="input" type="password" placeholder="请输入密码">
@@ -49,8 +48,6 @@
         regist(body, function (response) {
             switch (response.status) {
                 case "0200":
-                    // response.mobile = body.mobile;
-                    // saveUser(response);
                     history.go(-1);
                     break;
                 default:
@@ -68,15 +65,30 @@
         validCode(body, phone.value, function (response) {
             switch (response.status) {
                 case "0200":
-                    // response.mobile = body.mobile;
-                    // saveUser(response);
+                    time(document.getElementById("sendCode"));
                     break;
                 default:
                     alert("发送验证码失败");
                     break;
             }
         })
+    }
+    var wait=60;
+    function time(o) {
+        if (wait === 0) {
+            o.removeAttribute("disabled");
+            o.value="获取验证码";
+            wait = 60;
+        } else {
 
+            o.setAttribute("disabled", true);
+            o.value="重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function() {
+                    time(o)
+                },
+                1000)
+        }
     }
     window.onload = function () {
         // logout();

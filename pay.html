@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>支付页面</title>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-    <script type="text/javascript" src="./js/User.js"></script>
     <script type="text/javascript" src="./js/Api.js"></script>
 
 </head>
@@ -67,6 +65,7 @@
 
     function create() {
         var user = loadUser();
+        console.log(user.userid +"---------")
         var body = {};
         body.payment = "0.01";
         body.paytype = "";

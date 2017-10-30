@@ -10,6 +10,8 @@ function loadXMLDoc(method, url, body, response) {
         var json = {};
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200) {
+                console.log(xmlhttp.response);
+
                 json = JSON.parse(xmlhttp.response);
             } else {
                 json.status = "0" + xmlhttp.status;
@@ -67,7 +69,6 @@ function loadAlipay(method, url, body, response) {
             }
             response(json)
         }
-
     };
     xmlhttp.open(method, url, true);
     xmlhttp.setRequestHeader("Content-Type", "application/json;");
@@ -80,4 +81,30 @@ function loadAlipay(method, url, body, response) {
     }
     console.log(JSON.stringify(body));
     xmlhttp.send(JSON.stringify(body));
+}
+
+function isLogin() {
+
+    return this.loadUser() !== null
+}
+
+function saveUser(user) {
+    var storage = window.localStorage;
+    storage.setItem('user', JSON.stringify(user))
+}
+
+function loadUser() {
+    var user = window.localStorage.getItem('user');
+    if (user === undefined || user === null) {
+        return null
+    }
+    return JSON.parse(user);
+}
+
+function relogin() {
+    logout();
+}
+
+function logout() {
+    window.localStorage.removeItem('user')
 }
