@@ -42,7 +42,7 @@ function regist(body, response) {
 }
 
 function validCode(body, phone, response) {
-    loadXMLDoc("GET", baseUrl + "send?phone=" + phone, body, response)
+    loadXMLDoc("GET", baseUrl + "getDomesticCode/send?phone=" + phone, body, response)
 }
 
 function createOrder(body, response) {
