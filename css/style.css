@@ -86,16 +86,18 @@ html {
 }
 
 .btn-validCode {
-    width: 150px;
-    height: 30px;
+    color: #5A7BED;
+    width: 120px;
+    height: 48px;
     font-size: 18px;
     position: absolute;
     z-index: 1;
     margin-left: -150px;
     outline: none;
-    margin-top: 10px;
+    margin-top: 5px;
+    border-style: solid;
     background-color: white;
-    border-color: #4461D9;
+    border-color: #5A7BED;
     text-align: center;
     text-decoration: none;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, .22);
