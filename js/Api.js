@@ -1,4 +1,5 @@
 var baseUrl = "http://192.168.0.113:8080/GYDomestic/";
+
 // var baseUrl = "http://180.97.83.230:8080/GYDomestic/";
 
 function loadXMLDoc(method, url, body, response) {
@@ -174,7 +175,7 @@ function logout() {
  */
 function pay(product) {
     window.sessionStorage.setItem("product", JSON.stringify(product));
-    window.location.href="./pay.html"
+    window.location.href = "./pay.html"
 }
 
 function getProduct() {
@@ -186,8 +187,9 @@ function getProduct() {
 }
 
 function productIsEmpty() {
-    var product= getProduct();
-    if (product ===null) return true;
-    if (product.price===undefined||product.price===''||product.price===null) return true;
-    if (product.content===undefined||product.content===''||product.content===null) return true;
+    var product = getProduct();
+    if (product === null) return true;
+    if (product.price === undefined || product.price === '' || product.price === null) return true;
+    if (product.content === undefined || product.content === '' || product.content === null) return true;
+    if (product.returnUrl === undefined || product.returnUrl === '' || product.returnUrl === null) return true;
 }

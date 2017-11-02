@@ -90,9 +90,9 @@
 
     function alipay() {
         console.log(window.href);
-        var url =window.location.href;
-        url=url.substring(0,url.length-8)+"validation.html";
-        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl":""};
+        var url = window.location.href;
+        url = url.substring(0, url.length - 8) + "validation.html";
+        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl": getProduct().returnUrl};
         alipayOrder(body, function (response) {
             console.log(response);
             document.getElementById("pay-content").innerHTML = response;
