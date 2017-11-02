@@ -21,26 +21,31 @@
     <h1>H5 SDK Demo</h1><br>
     <span id="id"></span>
     <span id="phone"></span>
-    <a id="login" href="login.html" >登录</a><br>
-    <a href="pay.html"> 支付</a>
+    <a id="login" href="login.html">登录</a><br>
+    <button onclick="toPay()"> 支付</button>
     <br/>
 
 </div>
 </body>
 <script>
-    window.onload= function () {
+    window.onload = function () {
         if (isLogin()) {
-            var user =loadUser();
+            var user = loadUser();
             document.getElementById("login").innerHTML = "注销登录";
-            document.getElementById("id").innerHTML = "用户ID"+user.userid+"<br/>";
-            document.getElementById("phone").innerHTML = "用户手机号" +user.username+"<br/>";
+            document.getElementById("id").innerHTML = "用户ID" + user.userid + "<br/>";
+            document.getElementById("phone").innerHTML = "用户手机号" + user.username + "<br/>";
         } else {
             document.getElementById("login").innerHTML = "登录";
             document.getElementById("id").innerHTML = "";
-            document.getElementById("phone").innerHTML ="";
+            document.getElementById("phone").innerHTML = "";
         }
     };
-   function toPay() {
-   }
+
+    function toPay() {
+        var product = {};
+        product.price = "0.01";
+        product.content = "测试商品";
+        pay(product)
+    }
 </script>
 </html>

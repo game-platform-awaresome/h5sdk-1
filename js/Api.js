@@ -1,4 +1,5 @@
-var baseUrl = "http://192.168.0.125:8080/GYDomestic/";
+var baseUrl = "http://192.168.0.113:8080/GYDomestic/";
+// var baseUrl = "http://180.97.83.230:8080/GYDomestic/";
 
 function loadXMLDoc(method, url, body, response) {
 
@@ -18,6 +19,10 @@ function loadXMLDoc(method, url, body, response) {
             if (json.status === "0208") {
                 upDataToken(json.token);
                 loadXMLDoc(method, url, body, response);
+                return;
+            }
+            if (json.status === "0405") {
+                logout();
                 return;
             }
             response(json);
@@ -168,7 +173,8 @@ function logout() {
  * 支付相关
  */
 function pay(product) {
-    window.sessionStorage.setItem("product", JSON.stringify(product))
+    window.sessionStorage.setItem("product", JSON.stringify(product));
+    window.location.href="./pay.html"
 }
 
 function getProduct() {
@@ -179,6 +185,9 @@ function getProduct() {
     return JSON.parse(product);
 }
 
-function productIsE() {
-
+function productIsEmpty() {
+    var product= getProduct();
+    if (product ===null) return true;
+    if (product.price===undefined||product.price===''||product.price===null) return true;
+    if (product.content===undefined||product.content===''||product.content===null) return true;
 }

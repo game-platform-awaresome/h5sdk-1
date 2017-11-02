@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>支付页面</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/Api.js"></script>
 
@@ -40,7 +41,7 @@
         <div onclick="alipay()" class="pay">
             <span class="pay-span"> 支付</span>
             <img class="time" src="img/倒计时@3x.png" height="25">
-            <span class="pay-span"></span>
+            <span id="timeOut" class="pay-span"></span>
         </div>
     </div>
 </div>
@@ -53,27 +54,32 @@
         } else {
             create();
         }
+
+        if (productIsEmpty()) {
+            history.go(-1);
+        }
     }
 
     function create() {
+
         var user = loadUser();
-        console.log(user.userid +"---------")
         var body = {};
-        body.payment = "0.01";
         body.paytype = "";
         body.paystatus = "";
         body.user = {"userid": user.userid + ""};
         body.games = {"gameid": user.gameid + ""};
-        body.ordergoods = [{"title": "测试商品", "price": "0.01", "number": "", "orderid": ""}];
+        var product = getProduct();
+        body.payment = product.price;
+        body.ordergoods = [{"title": product.content, "price": product.price, "number": "", "orderid": ""}];
         createOrder(body, function (response) {
             console.log(response);
-
             switch (response.status) {
                 case "0200":
                     order = response;
                     document.getElementById("price").innerHTML = "¥" + body.payment;
                     document.getElementById("number").innerHTML = response.serialnumber;
                     document.getElementById("allPrice").innerHTML = "¥" + body.payment;
+                    setTime();
                     break;
                 default:
                     alert("创建订单失败");
@@ -83,13 +89,33 @@
     }
 
     function alipay() {
-        console.log(order + "---------");
-        var body = {"orderid": order.orderid + ""};
+        console.log(window.href);
+        var url =window.location.href;
+        url=url.substring(0,url.length-8)+"validation.html";
+        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl":""};
         alipayOrder(body, function (response) {
             console.log(response);
             document.getElementById("pay-content").innerHTML = response;
             document.forms[0].submit();
         })
+    }
+
+
+    function setTime() {
+        var x = 30, interval;
+        var d = new Date("1111/1/1,0:" + x + ":0");
+        interval = setInterval(function () {
+            var m = d.getMinutes();
+            var s = d.getSeconds();
+            m = m < 10 ? "0" + m : m;
+            s = s < 10 ? "0" + s : s;
+            document.getElementById("timeOut").innerHTML = m + ":" + s;
+            if (m === 0 && s === 0) {
+                clearInterval(interval);
+                return;
+            }
+            d.setSeconds(s - 1);
+        }, 1000);
     }
 
     // Your logic here

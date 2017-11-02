@@ -51,7 +51,7 @@
         regist(body, function (response) {
             switch (response.status) {
                 case "0200":
-                    history.go(-1);
+                    history.back();
                     break;
                 case "0202":
                     alert("该用户已经注册了，请重新填写！");
