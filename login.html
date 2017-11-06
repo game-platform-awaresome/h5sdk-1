@@ -41,7 +41,7 @@
         body.username = phone.value;
         body.password = password.value;
         body.type = "1";
-        body.games = [{"gamepackage": "com.youda.games"}];
+        body.games = [{"gamepackage": gamepackage}];
         if (body.username===""||body.password===""){
             alert("请填写完整");
             return;
@@ -69,7 +69,7 @@
     }
 
     window.onload = function () {
-        logout();
+        loginOut();
     };
 </script>
 

@@ -44,6 +44,9 @@
             <span id="timeOut" class="pay-span"></span>
         </div>
     </div>
+    <div id="pay-ali">
+
+    </div>
 </div>
 <script language="javascript">
     var order = null;
@@ -61,7 +64,9 @@
     }
 
     function create() {
-
+        if (order !== null) {
+            return;
+        }
         var user = loadUser();
         var body = {};
         body.paytype = "";
@@ -72,7 +77,6 @@
         body.payment = product.price;
         body.ordergoods = [{"title": product.content, "price": product.price, "number": "", "orderid": ""}];
         createOrder(body, function (response) {
-            console.log(response);
             switch (response.status) {
                 case "0200":
                     order = response;
@@ -89,13 +93,16 @@
     }
 
     function alipay() {
-        console.log(window.href);
+        if (order === null) {
+            return;
+        }
         var url = window.location.href;
         url = url.substring(0, url.length - 8) + "validation.html";
-        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl": getProduct().returnUrl};
+        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl": url};
+        console.log("body" + body);
         alipayOrder(body, function (response) {
-            console.log(response);
-            document.getElementById("pay-content").innerHTML = response;
+            console.log("response" + response);
+            document.getElementById("pay-ali").innerHTML = response;
             document.forms[0].submit();
         })
     }

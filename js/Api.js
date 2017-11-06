@@ -1,6 +1,6 @@
-var baseUrl = "http://192.168.0.113:8080/GYDomestic/";
-
-// var baseUrl = "http://180.97.83.230:8080/GYDomestic/";
+//var baseUrl = "http://192.168.0.166:8080/GYDomestic/";
+var gamepackage="com.youda.games";
+var baseUrl = "http://180.97.83.230:8080/GYDomestic/";
 
 function loadXMLDoc(method, url, body, response) {
 
@@ -12,7 +12,6 @@ function loadXMLDoc(method, url, body, response) {
         var json = {};
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200) {
-                console.log(xmlhttp.response);
                 json = JSON.parse(xmlhttp.response);
             } else {
                 json.status = "0" + xmlhttp.status;
@@ -23,7 +22,7 @@ function loadXMLDoc(method, url, body, response) {
                 return;
             }
             if (json.status === "0405") {
-                logout();
+                loginOut();
                 return;
             }
             response(json);
@@ -36,11 +35,9 @@ function loadXMLDoc(method, url, body, response) {
         var user = loadUser();
         xmlhttp.setRequestHeader("id", user.userid + "");
         xmlhttp.setRequestHeader("token", user.token);
-        console.log(user.token);
 
     }
     if (body !== null) {
-        console.log(JSON.stringify(body));
         xmlhttp.send(JSON.stringify(body));
     }
 
@@ -79,6 +76,10 @@ function forgetFirst(body, response) {
 //忘记密码第二步
 function forgetNext(body, response) {
     loadXMLDoc("PUT", baseUrl + "user/forgetpasstwo", body, response)
+}
+//验证支付
+function validationPay(body, response) {
+    loadXMLDoc("POST", baseUrl + "pay/validationPay", body, response)
 }
 
 var wait = 60;
@@ -127,10 +128,8 @@ function loadAlipay(method, url, body, response) {
         var user = loadUser();
         xmlhttp.setRequestHeader("id", user.userid + "");
         xmlhttp.setRequestHeader("token", user.token);
-        console.log(user.token);
 
     }
-    console.log(JSON.stringify(body));
     xmlhttp.send(JSON.stringify(body));
 }
 
@@ -157,7 +156,7 @@ function loadUser() {
 }
 
 function relogin() {
-    logout();
+    loginOut();
 }
 
 function upDataToken(token) {
@@ -166,16 +165,15 @@ function upDataToken(token) {
     saveUser(user);
 }
 
-function logout() {
+function loginOut() {
     window.localStorage.removeItem('user')
 }
-
 /**
  * 支付相关
  */
 function pay(product) {
     window.sessionStorage.setItem("product", JSON.stringify(product));
-    window.location.href = "./pay.html"
+    window.location.href = "./h5SDK/pay.html"
 }
 
 function getProduct() {
@@ -192,4 +190,17 @@ function productIsEmpty() {
     if (product.price === undefined || product.price === '' || product.price === null) return true;
     if (product.content === undefined || product.content === '' || product.content === null) return true;
     if (product.returnUrl === undefined || product.returnUrl === '' || product.returnUrl === null) return true;
+}
+function productDel() {
+    window.localStorage.removeItem('product')
+}
+/**
+ * @return {string}
+ */
+function QueryString(name) {
+    var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result === null || result.length < 1) {
+        return "";
+    }
+    return result[1];
 }

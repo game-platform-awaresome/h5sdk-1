@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>支付验证</title>
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="./js/Api.js"></script>
+
     <style>
 
         #loading {
@@ -40,8 +42,9 @@
             margin-left: -60px;
             margin-top: -60px
         }
-        .img{
-            width :100px;
+
+        .img {
+            width: 100px;
             padding: 10px;
         }
 
@@ -75,15 +78,43 @@
     <div class="cover"></div>
     <div class="box">
         <div id="run">
-            <img class="img" src="./img/gy_loading.png" >
+            <img class="img" src="./img/gy_loading.png">
         </div>
     </div>
 </div>
 </body>
 <script language="javascript">
     function toSign() {
-
+        window.location.href = getProduct().returnUrl + "?payStatus=success&price=" + QueryString("total_amount") +
+            "&trade_no=" + QueryString("out_trade_no");
+//        break;
+//        var body = {};
+//        body.out_trade_no = QueryString("out_trade_no");
+//        body.version = QueryString("version");
+//        body.app_id = QueryString("app_id");
+//        body.charset = QueryString("charset");
+//        body.sign_type = QueryString("sign_type");
+//        body.trade_no = QueryString("trade_no");
+//        body.auth_app_id = QueryString("auth_app_id");
+//        body.timestamp = QueryString("timestamp");
+//        body.seller_id = QueryString("seller_id");
+//        body.total_amount = QueryString("total_amount");
+//        body.method = QueryString("method");
+//        body.sign = QueryString("sign");
+//        validationPay(body, function (response) {
+//            switch (response.status) {
+//                case "0200":
+//                    window.location.href = getProduct().returnUrl + "?payStatus=success&price=" + body.total_amount +
+//                        "&trade_no=" + body.trade_no;
+//                    break;
+//                default:
+//                    window.location.href = getProduct().returnUrl + "?payStatus=error";
+//                    break;
+//            }
+//            productDel();
+//        })
     }
+    toSign();
 </script>
 
 </html>
