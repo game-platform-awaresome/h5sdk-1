@@ -1,6 +1,5 @@
 //var baseUrl = "http://192.168.0.166:8080/GYDomestic/";
-var gamepackage="com.youda.games";
-var baseUrl = "http://180.97.83.230:8080/GYDomestic/";
+var baseUrl = "http://23sdk.23h5.cn:8080/GYDomestic/";
 
 function loadXMLDoc(method, url, body, response) {
 
@@ -10,8 +9,11 @@ function loadXMLDoc(method, url, body, response) {
     }
     xmlhttp.onreadystatechange = function () {
         var json = {};
+
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200) {
+                console.log(xmlhttp.response);
+                console.log(JSON.parse('{"name":"chenshengyu"}'));
                 json = JSON.parse(xmlhttp.response);
             } else {
                 json.status = "0" + xmlhttp.status;
@@ -25,6 +27,7 @@ function loadXMLDoc(method, url, body, response) {
                 loginOut();
                 return;
             }
+            console.log(json);
             response(json);
         }
 
@@ -33,7 +36,7 @@ function loadXMLDoc(method, url, body, response) {
     xmlhttp.setRequestHeader("Content-Type", "application/json;");
     if (isLogin()) {
         var user = loadUser();
-        xmlhttp.setRequestHeader("id", user.userid + "");
+        xmlhttp.setRequestHeader("id", user.userId + "");
         xmlhttp.setRequestHeader("token", user.token);
 
     }
@@ -68,6 +71,11 @@ function alipayOrder(body, response) {
     loadAlipay("POST", baseUrl + "alipay/phonepay", body, response)
 }
 
+//微信支付
+function weChatPayOrder(body, response) {
+    loadAlipay("POST", baseUrl + "weixin/webwappay", body, response)
+}
+
 //忘记密码第一步
 function forgetFirst(body, response) {
     loadXMLDoc("PUT", baseUrl + "user/forgetpassone", body, response)
@@ -77,9 +85,10 @@ function forgetFirst(body, response) {
 function forgetNext(body, response) {
     loadXMLDoc("PUT", baseUrl + "user/forgetpasstwo", body, response)
 }
+
 //验证支付
 function validationPay(body, response) {
-    loadXMLDoc("POST", baseUrl + "pay/validationPay", body, response)
+    loadXMLDoc("POST", baseUrl + "alipay/signdata", body, response)
 }
 
 var wait = 60;
@@ -147,6 +156,22 @@ function saveUser(user) {
     storage.setItem('user', JSON.stringify(user))
 }
 
+//保存key
+function saveKey(key) {
+    var storage = window.localStorage;
+    storage.setItem('key', JSON.stringify(key))
+}
+
+//获取key
+function getKey() {
+    var key = window.localStorage.getItem('key');
+    if (key === undefined || key === null) {
+        return null
+    }
+    return JSON.parse(key);
+}
+
+
 function loadUser() {
     var user = window.localStorage.getItem('user');
     if (user === undefined || user === null) {
@@ -168,12 +193,12 @@ function upDataToken(token) {
 function loginOut() {
     window.localStorage.removeItem('user')
 }
+
 /**
  * 支付相关
  */
-function pay(product) {
+function savePay(product) {
     window.sessionStorage.setItem("product", JSON.stringify(product));
-    window.location.href = "./h5SDK/pay.html"
 }
 
 function getProduct() {
@@ -184,16 +209,30 @@ function getProduct() {
     return JSON.parse(product);
 }
 
-function productIsEmpty() {
-    var product = getProduct();
+function productIsEmpty(product) {
     if (product === null) return true;
     if (product.price === undefined || product.price === '' || product.price === null) return true;
     if (product.content === undefined || product.content === '' || product.content === null) return true;
-    if (product.returnUrl === undefined || product.returnUrl === '' || product.returnUrl === null) return true;
+    if (product.orderid === undefined || product.orderid === '' || product.orderid === null) return true;
 }
+
+function keyIsEmpty(key) {
+    if (key === null) return true;
+    if (key.key === undefined || key.key === '' || key.key === null) return true;
+    if (key.backUrl === undefined || key.backUrl === '' || key.backUrl === null) return true;
+}
+
+function userIsEmpty(user) {
+    if (user === null) return true;
+    if (user.userId === undefined || user.userId === '' || user.userId === null) return true;
+    if (user.gameId === undefined || user.gameId === '' || user.gameId === null) return true;
+    if (user.token === undefined || user.token === '' || user.token === null) return true;
+}
+
 function productDel() {
     window.localStorage.removeItem('product')
 }
+
 /**
  * @return {string}
  */

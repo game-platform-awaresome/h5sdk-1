@@ -2,12 +2,15 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>支付页面</title>
+    <title>订单中心</title>
+    <link rel="Shortcut Icon" href="img/ico.ico">
+    <meta name="renderer" content="webkit">
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/Api.js"></script>
-
+    <script type="text/javascript" src="./js/json2.js"></script>
+    <script type="text/javascript" src="./js/Base64.js"></script>
 </head>
 <body>
 <div id="pay-content" class="content pay-content">
@@ -25,20 +28,28 @@
     </div>
     <div class="pay-menu">
         <span class="pay-text-l">支付方式</span>
-        <span class="pay-type">  支付宝 </span>
+        <span id="payType" class="pay-type">  支付宝 </span>
     </div>
     <div class="pay-menu ali-pay">
         <img class="pay-img" src="img/支付宝@3x.png">
         <span class="pay-text"> 支付宝</span>
-        <div style="display: none" class='pay-check'>
-            <input type='checkbox' id='check-ali' name='checkboox[]'>
+        <div class='pay-check'>
+            <input onclick="onClickHander(this)" checked="checked" type='checkbox' id='check-ali' name='checkboox[]'>
             <label for='check-ali'></label>
+        </div>
+    </div>
+    <div class="pay-menu wechat-pay">
+        <img class="pay-img" src="img/微信@3x.png">
+        <span class="pay-text"> 微信</span>
+        <div class='pay-check'>
+            <input onclick="onClickHander(this)" type='checkbox' id='check-wechat' name='checkboox[]'>
+            <label for='check-wechat'></label>
         </div>
     </div>
     <div class="pay-bottom">
         <span class="pay-text-button">总计</span>
         <span id="allPrice" class="pay-text-button pay-text-price"></span>
-        <div onclick="alipay()" class="pay">
+        <div onclick="youdaToPay()" class="pay">
             <span class="pay-span"> 支付</span>
             <img class="time" src="img/倒计时@3x.png" height="25">
             <span id="timeOut" class="pay-span"></span>
@@ -48,34 +59,87 @@
 
     </div>
 </div>
+<script>
+    function onClickHander(obj) {
+        console.log(obj)
+        switch (obj.id) {
+            case "check-wechat":
+                if (obj.checked) {
+                    document.getElementById("check-ali").checked = false
+                } else {
+                    document.getElementById("check-wechat").checked = true
+                }
+                document.getElementById("payType").innerHTML = "微信";
+                break;
+            case "check-ali":
+                if (obj.checked) {
+                    document.getElementById("check-wechat").checked = false
+                } else {
+                    document.getElementById("check-ali").checked = true
+                }
+                document.getElementById("payType").innerHTML = "支付宝";
+                break
+        }
+    }
+</script>
 <script language="javascript">
     var order = null;
+    var user = null;
+
 
     function load() {
-        if (!isLogin()) {
+        var s = decodeURIComponent(QueryString("params"));
+        console.log(s);
+        s = new Base64().decode(s);
+
+        console.log(s);
+        var params = JSON.parse(s);
+//        var params = JSON.parse(s.replace('\n',''));
+        user = {
+            userId: params.userId,
+            token: params.token,
+            gameId: params.gameId,
+        };
+        var product = {
+            price: params.price,
+            content: params.content,
+            orderid: params.orderId
+        };
+        if (productIsEmpty(product)) {
+            window.close();
+        }
+        if (userIsEmpty(user)) {
             window.location.href = './login.html'
         } else {
-            create();
+            saveUser(user);
+            create(product);
         }
 
-        if (productIsEmpty()) {
-            history.go(-1);
+
+    }
+
+
+    function youdaToPay() {
+        if (document.getElementById("check-ali").checked) {
+            alipay()
+        } else {
+            weChatPay();
         }
     }
 
-    function create() {
+    function create(product) {
         if (order !== null) {
             return;
         }
-        var user = loadUser();
         var body = {};
         body.paytype = "";
         body.paystatus = "";
-        body.user = {"userid": user.userid + ""};
-        body.games = {"gameid": user.gameid + ""};
-        var product = getProduct();
+        body.user = {"userid": user.userId + ""};
+        body.games = {"gameid": user.gameId + ""};
+        body.otherOrderID = product.orderid;
         body.payment = product.price;
         body.ordergoods = [{"title": product.content, "price": product.price, "number": "", "orderid": ""}];
+        console.log(body);
         createOrder(body, function (response) {
             switch (response.status) {
                 case "0200":
@@ -96,10 +160,7 @@
         if (order === null) {
             return;
         }
-        var url = window.location.href;
-        url = url.substring(0, url.length - 8) + "validation.html";
-        var body = {"orderid": order.orderid + "", "callBackUrl": url, "returnUrl": url};
-        console.log("body" + body);
+        var body = {"orderid": order.orderid + ''};
         alipayOrder(body, function (response) {
             console.log("response" + response);
             document.getElementById("pay-ali").innerHTML = response;
@@ -107,6 +168,15 @@
         })
     }
 
+    function weChatPay() {
+        if (order === null) {
+            return;
+        }
+        var body = {"orderid": order.orderid + ''};
+        weChatPayOrder(body, function (response) {
+            window.open(JSON.parse(response).mweb_url + "&redirect_url=http%3a%2f%2f23sdk.23h5.cn%2fh5SDK%2fvalidation.html")
+        })
+    }
 
     function setTime() {
         var x = 30, interval;
@@ -117,8 +187,9 @@
             m = m < 10 ? "0" + m : m;
             s = s < 10 ? "0" + s : s;
             document.getElementById("timeOut").innerHTML = m + ":" + s;
-            if (m === 0 && s === 0) {
+            if (m === "00" && s === "00") {
                 clearInterval(interval);
+                window.close();
                 return;
             }
             d.setSeconds(s - 1);

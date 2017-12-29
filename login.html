@@ -2,17 +2,21 @@
 <html lang="cn">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>游达登录</title>
+    <link rel="Shortcut Icon" href="img/ico.ico">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script type="text/javascript" src="./js/Api.js"></script>
+    <script type="text/javascript" src="./js/json2.js"></script>
+    <script type="text/javascript" src="./js/Base64.js"></script>
 
 </head>
 <body>
 <div id="login" class="content">
     <img class="bg-img" src="img/gy_big_bg.png" width="100%">
     <div class="logo">
-        <img class="logo-img" src="img/LOGO@3x.png" width="80%">
+        <img class="logo-img" src="img/LOGO@3x.png" width="50%">
     </div>
     <div class="from">
         <img class="icon" src="./img/用户icon@3x.png">
@@ -21,7 +25,7 @@
         <img class="icon" src="./img/密码ICON@3x.png">
         <input id="password" class="input" type="password" placeholder="请输入密码" style="max-width:750px">
         <div class="line" style="max-width:800px"></div>
-        <button class="btn-all" onclick="toLogin()">
+        <button class="btn-all" onclick="ToLogin()">
             <img class="btn-img" src="img/登录按钮@3x.png">
             <span class="btn-text">登录</span>
         </button>
@@ -32,7 +36,7 @@
 </div>
 </body>
 <script type="text/javascript">
-    function toLogin() {
+    function ToLogin() {
         var body = {};
         var phone = document.getElementById("username");
         var password = document.getElementById("password");
@@ -41,8 +45,8 @@
         body.username = phone.value;
         body.password = password.value;
         body.type = "1";
-        body.games = [{"gamepackage": gamepackage}];
-        if (body.username===""||body.password===""){
+        body.games = [{"gamepackage": getKey().key}];
+        if (body.username === "" || body.password === "") {
             alert("请填写完整");
             return;
         }
@@ -50,8 +54,7 @@
             switch (response.status) {
                 case "0200":
                     response.username = body.username;
-                    saveUser(response);
-                    history.go(-1);
+                    loginSuccess(response);
                     break;
                 default:
                     alert("登录失败");
@@ -60,15 +63,54 @@
         })
     }
 
-    function toRegist(){
+    function loginSuccess(response) {
+//        var address = decodeURIComponent(getKey().backUrl);
+        var address = QueryString("backUrl")
+        var user = {
+            userId: response.userid,
+            gameId: response.gameid,
+            token: response.token
+        };
+        var base = new Base64();
+        var string = base.encode(JSON.stringify(user));
+//        address += "?&params=" + string;
+        window.open(address+"?params="+string,"_self");
+//        var body = document.body;
+//        var div = document.createElement("div");
+//        div.id = "youda";
+//        div.innerHTML = "<div style=\"display: none\" id=\"payHref\">\n" +
+//            "</div>";
+//        body.appendChild(div);
+//        // var href = "http://23sdk.23h5.cn/h5SDK/pay.html";
+//        document.getElementById("payHref").innerHTML =
+//            "<form  accept-charset='UTF-8' id='youdaForm'  method ='get' action=" + address + ">" +
+//            "<input name ='params' type='text'  value=" + string + ">" +
+//            "</form>";
+//        console.log(document.getElementById("payHref").innerHTML);
+//        document.getElementById("youdaForm").submit();
+//        body.removeChild(div);
+    }
+    function toRegist() {
         window.location.href = './regist.html'
     }
 
-    function toForget(){
+    function toForget() {
         window.location.href = './forget.html'
     }
 
+    function initGame() {
+        var key = {key: QueryString("youdaKey"), backUrl: QueryString("backUrl")};
+        if (keyIsEmpty(key)) {
+            history.go(-1);
+        }
+        saveKey(key);
+    }
+    function strToJson(str){
+        var json = eval('(' + str + ')');
+        return json;
+    }
     window.onload = function () {
+        initGame();
         loginOut();
     };
 </script>
